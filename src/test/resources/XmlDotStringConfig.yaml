@@ -1,0 +1,15 @@
+# paths relative to this yaml file
+rootPath: "."
+translations:
+  - from:
+      - "ThisFile.xml"
+      - "ThisOtherFile.xml"
+    to:
+      - "NewTestFile.strings"
+      - "OtherTestFile.strings"
+  - from:
+      - "MyFile.xml"
+      - "MyOtherFile.xml"
+    to:
+      - "MyTestFile.strings"
+      - "MyOtherTestFile.strings"
