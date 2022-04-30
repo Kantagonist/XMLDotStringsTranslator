@@ -1,5 +1,6 @@
 package inputmapcreators
 
+import DotStringsTranslatorException
 import org.xml.sax.InputSource
 import java.io.File
 import java.io.StringReader
@@ -13,10 +14,17 @@ import javax.xml.parsers.DocumentBuilderFactory
  *
  * @return a list of name-content pairs for further use
  */
+@kotlin.jvm.Throws(DotStringsTranslatorException::class)
 internal fun createXmlMap(absolutePath: String): List<NameContentTuple> {
 
     // read in XML file
     val xmlFile = File(absolutePath)
+    if (!xmlFile.exists() || !xmlFile.name.endsWith(".strings")) {
+        throw DotStringsTranslatorException(
+            tag = "[FILE NOT FOUND]",
+            message = "Could not find .strings file under:\n$absolutePath"
+        )
+    }
     val dbFactoryBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
     val xmlInput = InputSource(StringReader(xmlFile.readText()))
     val virtualXmlDocument = dbFactoryBuilder.parse(xmlInput)
