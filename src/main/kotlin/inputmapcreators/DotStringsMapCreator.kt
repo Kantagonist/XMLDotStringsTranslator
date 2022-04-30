@@ -36,7 +36,9 @@ internal fun createDotStringsMap(absolutePath: String): List<NameContentTuple> {
              * Create a regex pattern to match only true (".*" = ".*")
              */
             for (stringResource in section.content.split(";")) {
-                result.add(getNameContentTupleFrom(stringResource))
+                if (!stringResource.contains(Regex("^\\s*$"))) { // matches a whitespace-only string
+                    result.add(getNameContentTupleFrom(stringResource))
+                }
             }
         }
     }
@@ -149,7 +151,7 @@ private fun getNameContentTupleFrom(stringResource: String): NameContentTuple {
         ?: throw DotStringsTranslatorException("[FORMAT ERROR]", "Tried to extract name from:\n\t$stringResource")
 
     return NameContentTuple(
-        name = captureGroupValues[0],
-        content = captureGroupValues[1]
+        name = captureGroupValues[1],
+        content = captureGroupValues[2]
     )
 }
