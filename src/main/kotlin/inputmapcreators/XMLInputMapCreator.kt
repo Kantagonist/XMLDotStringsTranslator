@@ -19,7 +19,7 @@ internal fun createXmlMap(absolutePath: String): List<NameContentTuple> {
 
     // read in XML file
     val xmlFile = File(absolutePath)
-    if (!xmlFile.exists() || !xmlFile.name.endsWith(".strings")) {
+    if (!xmlFile.exists() || !xmlFile.name.endsWith(".xml")) {
         throw DotStringsTranslatorException(
             tag = "[FILE NOT FOUND]",
             message = "Could not find .strings file under:\n$absolutePath"
