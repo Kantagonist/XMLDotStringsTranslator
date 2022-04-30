@@ -1,6 +1,6 @@
-import configbuilder.ConfigBuilder
 import configbuilder.Translation
 import configbuilder.VirtualConfigFile
+import configbuilder.readConfig
 import org.junit.jupiter.api.Test
 import java.io.File
 import kotlin.test.assertEquals
@@ -44,7 +44,7 @@ class YamlConfigReadingTest {
 
         // testing
         val path = "${System.getProperty("user.dir")}/src/test/resources/XmlDotStringConfig.yaml"
-        val actualConfig = ConfigBuilder.readConfig(path)
+        val actualConfig = readConfig(path)
 
         // checking results
         assertEquals(expectedConfig, actualConfig)
