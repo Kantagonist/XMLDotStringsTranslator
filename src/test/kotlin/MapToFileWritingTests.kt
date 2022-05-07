@@ -35,20 +35,20 @@ class MapToFileWritingTests {
         targetFile.writeText(
             "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
                     "<resources>\n" +
-                    "\t<string name=\"gren, no sea takimat\">This into the map</string>\n" +
-                    "\t<string name=\"Lorem_ipsum_dolor\">Hello World</string>\n" +
-                    "\t<string name=\"agag_agaga_agagag\"> At vero eos et accusam et justo du</string>\n" +
-                    "\t<string name=\"a_random_string_resource\">Unfrozen pizza shell</string>\n" +
+                    "    <string name=\"gren, no sea takimat\">This into the map</string>\n" +
+                    "    <string name=\"Lorem_ipsum_dolor\">Hello World</string>\n" +
+                    "    <string name=\"agag_agaga_agagag\"> At vero eos et accusam et justo du</string>\n" +
+                    "    <string name=\"a_random_string_resource\">Unfrozen pizza shell</string>\n" +
                     "</resources>"
         )
 
         // create expected file content
         val expectedFileContent = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
                 "<resources>\n" +
-                "\t<string name=\"gren, no sea takimat\">luptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takim</string>\n" +
-                "\t<string name=\"Lorem_ipsum_dolor\">Lorem ipsum dolor sit </string>\n" +
-                "\t<string name=\"agag_agaga_agagag\">aöognaong;agna</string>\n" +
-                "\t<string name=\"a_random_string_resource\">Unfrozen pizza shell</string>\n" +
+                "    <string name=\"gren, no sea takimat\">luptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takim</string>\n" +
+                "    <string name=\"Lorem_ipsum_dolor\">Lorem ipsum dolor sit </string>\n" +
+                "    <string name=\"agag_agaga_agagag\">aöognaong;agna</string>\n" +
+                "    <string name=\"a_random_string_resource\">Unfrozen pizza shell</string>\n" +
                 "</resources>"
 
         // generate actual output
