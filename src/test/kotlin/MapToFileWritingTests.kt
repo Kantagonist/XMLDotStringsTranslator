@@ -7,11 +7,14 @@ import kotlin.test.assertEquals
 
 class MapToFileWritingTests {
 
-    @AfterAll
-    fun cleanup() {
-        val targetXmlFile1 = File( "${System.getProperty("user.dir")}/src/test/resources/writeToFileTest.xml")
-        if (targetXmlFile1.exists()) {
-            targetXmlFile1.delete()
+    companion object {
+        @AfterAll
+        @JvmStatic
+        fun cleanup() {
+            val targetXmlFile1 = File("${System.getProperty("user.dir")}/src/test/resources/writeToFileTest.xml")
+            if (targetXmlFile1.exists()) {
+                targetXmlFile1.delete()
+            }
         }
     }
 
@@ -42,9 +45,9 @@ class MapToFileWritingTests {
         // create expected file content
         val expectedFileContent = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
                 "<resources>\n" +
-                "\t<string name=\"gren, no sea takimat\">Lorem ipsum dolor sit </string>\n" +
-                "\t<string name=\"Lorem_ipsum_dolor\">aöognaong;agna</string>\n" +
-                "\t<string name=\"agag_agaga_agagag\">luptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takim</string>\n" +
+                "\t<string name=\"gren, no sea takimat\">luptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takim</string>\n" +
+                "\t<string name=\"Lorem_ipsum_dolor\">Lorem ipsum dolor sit </string>\n" +
+                "\t<string name=\"agag_agaga_agagag\">aöognaong;agna</string>\n" +
                 "\t<string name=\"a_random_string_resource\">Unfrozen pizza shell</string>\n" +
                 "</resources>"
 
