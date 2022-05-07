@@ -83,10 +83,19 @@ internal fun writeMappingToFile(mapping: List<NameContentTuple>, absolutePath: S
  */
 private fun addToXmlDocument(xmlDocument: Document, nameContentTuple: NameContentTuple) {
     val firstResourceElement = xmlDocument.getElementsByTagName("resources").item(0)
+    val newElement = xmlDocument.createElement("string")
+
+    // set naming attribute
     val attribute = xmlDocument.createAttribute("name")
     attribute.nodeValue = nameContentTuple.name
-    val newStringNode = firstResourceElement.appendChild(xmlDocument.createElement("string").setAttributeNode(attribute))
-    newStringNode.nodeValue = nameContentTuple.content
+    newElement.setAttributeNode(attribute)
+
+    // set text content of node
+    val textContent = xmlDocument.createTextNode(nameContentTuple.content)
+    newElement.appendChild(textContent)
+
+    // add node to document
+    firstResourceElement.appendChild(newElement)
 }
 
 /**

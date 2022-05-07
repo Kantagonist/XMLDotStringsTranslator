@@ -12,8 +12,12 @@ class MapToFileWritingTests {
         @JvmStatic
         fun cleanup() {
             val targetXmlFile1 = File("${System.getProperty("user.dir")}/src/test/resources/writeToFileTest.xml")
+            val targetXmlFile2 = File( "${System.getProperty("user.dir")}/src/test/resources/writeNewElements.xml")
             if (targetXmlFile1.exists()) {
                 targetXmlFile1.delete()
+            }
+            if (targetXmlFile2.exists()) {
+                targetXmlFile2.delete()
             }
         }
     }
@@ -33,7 +37,7 @@ class MapToFileWritingTests {
         val targetFile = File( "${System.getProperty("user.dir")}/src/test/resources/writeToFileTest.xml")
         targetFile.createNewFile()
         targetFile.writeText(
-            "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+               "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
                     "<resources>\n" +
                     "    <string name=\"gren, no sea takimat\">This into the map</string>\n" +
                     "    <string name=\"Lorem_ipsum_dolor\">Hello World</string>\n" +
@@ -53,6 +57,43 @@ class MapToFileWritingTests {
 
         // generate actual output
         writeMappingToFile(inputListOfNameContentTuples, targetFile.absolutePath)
+        val actualFileContent = targetFile.readText()
+
+        // evaluate result
+        assertEquals(expectedFileContent, actualFileContent)
+    }
+
+    @Test
+    fun writeNewElementsToXml() {
+
+        // create input map
+        val inputListOfNameContentTuples = listOf(
+            NameContentTuple("Lorem_ipsum_dolor", "12346393593"),
+            NameContentTuple("the_test_file", "1095185ß51 2424")
+        )
+
+        // create target file
+        val targetFile = File( "${System.getProperty("user.dir")}/src/test/resources/writeNewElements.xml")
+        targetFile.createNewFile()
+        targetFile.writeText(
+               "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+                    "<resources>\n" +
+                    "    <string name=\"test_map_to_stay\">This into the map</string>\n" +
+                    "    <string name=\"the_string_to_stay\">Hello World</string>\n" +
+                    "</resources>"
+        )
+
+        // create expected file content
+        val expectedFileContent = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
+                "<resources>\n" +
+                "    <string name=\"test_map_to_stay\">This into the map</string>\n" +
+                "    <string name=\"the_string_to_stay\">Hello World</string>\n" +
+                "    <string name=\"Lorem_ipsum_dolor\">12346393593</string>\n" +
+                "    <string name=\"the_test_file\">1095185ß51 2424</string>\n" +
+                "</resources>"
+
+        // generate actual output
+        writeMappingToFile(inputListOfNameContentTuples, targetFile.absolutePath, addNewEntries = true)
         val actualFileContent = targetFile.readText()
 
         // evaluate result
