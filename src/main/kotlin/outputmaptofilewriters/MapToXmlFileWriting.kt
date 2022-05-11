@@ -17,7 +17,7 @@ import javax.xml.transform.stream.StreamResult
 private val standaloneHintRegex = Regex("\\sstandalone=\".*\"")
 
 /**
- * Updates a given resource files entries with the given map.
+ * Updates a given xml file's entries with the given map.
  * In case the map contains a mapping, which is not present in the xml resource, the mapping is not brought into it.
  * This method only does that, if the addNewEntries parameter is configured for it.
  *
@@ -26,7 +26,7 @@ private val standaloneHintRegex = Regex("\\sstandalone=\".*\"")
  * @param addNewEntries adds new entries on bottom of the existing file if true, ignores them is false.
  */
 @kotlin.jvm.Throws(DotStringsTranslatorException::class)
-internal fun writeMappingToFile(mapping: List<NameContentTuple>, absolutePath: String, addNewEntries: Boolean = false) {
+internal fun writeMappingToXmlFile(mapping: List<NameContentTuple>, absolutePath: String, addNewEntries: Boolean = false) {
     // read in XML file
     val xmlFile = File(absolutePath)
     if (!xmlFile.exists() || !xmlFile.name.endsWith(".xml")) {
