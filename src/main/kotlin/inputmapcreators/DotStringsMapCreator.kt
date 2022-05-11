@@ -1,6 +1,7 @@
 package inputmapcreators
 
 import DotStringsTranslatorException
+import utility.dotStringsKeyValueCaptureGroupsPattern
 import utility.readSectionsOfDotStrings
 import utility.whiteSpaceOnlyPattern
 import java.io.File
@@ -56,7 +57,7 @@ internal fun createDotStringsMap(absolutePath: String): List<NameContentTuple> {
  * @return virtual representation of the string resource
  */
 private fun getNameContentTupleFrom(stringResource: String): NameContentTuple {
-    val nameRegex = Regex("^.*((?<=\").*(?=\")).*=.*((?<=\").*(?=\")).*\$", RegexOption.DOT_MATCHES_ALL)
+    val nameRegex = Regex(dotStringsKeyValueCaptureGroupsPattern, RegexOption.DOT_MATCHES_ALL)
     val captureGroupValues= nameRegex.find(stringResource, 0)?.groupValues
         ?: throw DotStringsTranslatorException("[FORMAT ERROR]", "Tried to extract name from:\n\t$stringResource")
 
