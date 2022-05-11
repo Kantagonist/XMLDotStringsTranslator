@@ -1,7 +1,8 @@
 package inputmapcreators
 
 import DotStringsTranslatorException
-import readSectionsOfDotStrings
+import utility.readSectionsOfDotStrings
+import utility.whiteSpaceOnlyPattern
 import java.io.File
 
 /**
@@ -37,7 +38,7 @@ internal fun createDotStringsMap(absolutePath: String): List<NameContentTuple> {
              * Create a regex pattern to match only true (".*" = ".*")
              */
             for (stringResource in section.content.split(";")) {
-                if (!stringResource.contains(Regex("^\\s*$"))) { // matches a whitespace-only string
+                if (!stringResource.contains(Regex(whiteSpaceOnlyPattern))) { // matches a whitespace-only string
                     result.add(getNameContentTupleFrom(stringResource))
                 }
             }
