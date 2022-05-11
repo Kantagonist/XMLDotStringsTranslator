@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 import java.io.File
 import kotlin.test.assertEquals
 
-class YamlConfigReadingTest {
+class YamlConfigReadingTests {
 
     @Test
     fun testFileExistence() {

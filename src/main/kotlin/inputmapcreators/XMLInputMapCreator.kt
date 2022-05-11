@@ -22,7 +22,7 @@ internal fun createXmlMap(absolutePath: String): List<NameContentTuple> {
     if (!xmlFile.exists() || !xmlFile.name.endsWith(".xml")) {
         throw DotStringsTranslatorException(
             tag = "[FILE NOT FOUND]",
-            message = "Could not find .strings file under:\n$absolutePath"
+            message = "Could not find .xml file under:\n$absolutePath"
         )
     }
     val dbFactoryBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
