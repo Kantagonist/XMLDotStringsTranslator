@@ -17,7 +17,41 @@ class YamlConfigReadingTests {
             if (inputFile.exists()) {
                 inputFile.delete()
             }
+            val inputFile2 = File("${System.getProperty("user.dir")}/src/test/resources/RootPath.yaml")
+            if (inputFile2.exists()) {
+                inputFile2.delete()
+            }
         }
+    }
+
+    @Test
+    fun testYamlRootPathBuilding() {
+        val inputFilePath = "${System.getProperty("user.dir")}/src/test/resources/RootPath.yaml"
+        val inputFile = File(inputFilePath)
+        inputFile.createNewFile()
+        inputFile.writeText(
+            "rootPath: \"hello/world\"\n" +
+                    "translations:\n" +
+                    "  - from:\n" +
+                    "    to:\n"
+        )
+
+        // expected output
+        val expectedConfig = VirtualConfigFile(
+            rootPath = "${System.getProperty("user.dir")}/src/test/resources/hello/world",
+            translations = listOf(
+                Translation(
+                    from = null,
+                    to = null
+                )
+            )
+        )
+
+        // read in config
+        val actualConfig = readConfig(inputFilePath)
+
+        // checking results
+        assertEquals(expectedConfig, actualConfig)
     }
 
     @Test
@@ -47,7 +81,7 @@ class YamlConfigReadingTests {
 
         // expected output
         val expectedConfig = VirtualConfigFile(
-            rootPath = "${System.getProperty("user.dir")}/src/test/resources/MappingConfig.yaml",
+            rootPath = "${System.getProperty("user.dir")}/src/test/resources/.",
             translations = listOf(
                 Translation(
                     from = listOf(
