@@ -1,6 +1,9 @@
 package outputmaptofilewriters
 
+import DotStringsTranslatorException
 import inputmapcreators.NameContentTuple
+import readSectionsOfDotStrings
+import java.io.File
 
 /**
  * Updates a given .strings file's entries with the given map.
@@ -12,5 +15,15 @@ import inputmapcreators.NameContentTuple
  * @param addNewEntries adds new entries on bottom of the existing file if true, ignores them is false.
  */
 internal fun writeMappingToDotStringsFile(mapping: List<NameContentTuple>, absolutePath: String, addNewEntries: Boolean = false) {
+    // read in .strings file
+    val dotStringsFile = File(absolutePath)
+    if (!dotStringsFile.exists() || !dotStringsFile.name.endsWith(".strings")) {
+        throw DotStringsTranslatorException(
+            tag = "[FILE NOT FOUND]",
+            message = "Could not find .strings file under:\n$absolutePath"
+        )
+    }
 
+    // get sections of .strings file
+    val sectionsList = readSectionsOfDotStrings(dotStringsFile.readText())
 }
