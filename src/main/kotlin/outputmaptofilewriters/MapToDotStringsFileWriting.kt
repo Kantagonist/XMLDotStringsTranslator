@@ -106,7 +106,7 @@ private fun manipulateSectionContent(content: String, mapping: MutableList<NameC
          * by replacing the first part, the ranges of the content might be changed.
          * As a result, the offset needs to be calculated
          */
-        val offset = key.range.last - key.range.first - it.name.length
+        val offset = key.range.last - key.range.first - it.name.length + 1
         val offsetRange = IntRange(value.range.first + offset, value.range.last + offset)
         result = result.replaceRange(offsetRange, it.content)
     }

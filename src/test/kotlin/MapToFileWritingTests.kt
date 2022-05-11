@@ -137,7 +137,7 @@ class MapToFileWritingTests {
                  " This is a sensible choice and comment\n" +
                  " nothing will change here.\n" +
                  " \"agag_agaga\" =\"This should remain unchanged\";\n" +
-                 " */\"iphone 12 pro max\" = \"luptua. At vea rebum.\";\n"
+                 " */\"iphone 12 pro max\" = \"luptua. At vea rebum.\";"
         )
 
         // create expected file content
@@ -175,7 +175,7 @@ class MapToFileWritingTests {
         targetFile.writeText(
             "\"ed_diam_nonum_eirmod_empor_in\" = \"Lorem ipsum dolor sit \";\n" +
                  "\"123562_1148\" =\"666666\"; \"6276ß272ß\" = \"616719861\";\n" +
-                 "// a long comment in one line\n"
+                 "// a long comment in one line"
         )
 
         // create expected file content
@@ -186,7 +186,7 @@ class MapToFileWritingTests {
                 "\"another new element\" = \"123456789\";"
 
         // generate actual output
-        writeMappingToXmlFile(inputListOfNameContentTuples, targetFile.absolutePath, addNewEntries = true)
+        writeMappingToDotStringsFile(inputListOfNameContentTuples, targetFile.absolutePath, addNewEntries = true)
         val actualFileContent = targetFile.readText()
 
         // evaluate result
