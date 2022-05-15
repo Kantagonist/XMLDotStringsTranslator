@@ -45,7 +45,7 @@ fun main(args: Array<String>) {
 
         // decide between relative and absolute path
         if (configFilePath.startsWith("/").not()) {
-            configFilePath = "${System.getProperty("user.dir")}$configFilePath"
+            configFilePath = "${System.getProperty("user.dir")}/$configFilePath"
         }
         val virtualConfig = readConfig(configFilePath)
 
