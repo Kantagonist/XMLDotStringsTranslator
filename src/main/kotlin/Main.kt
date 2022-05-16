@@ -56,9 +56,9 @@ fun main(args: Array<String>) {
             val inputMappingsList = mutableListOf<List<NameContentTuple>>()
             it.from?.forEach {from ->
                 if (from.endsWith(".xml")) {
-                    inputMappingsList.add(createXmlMap(from))
+                    inputMappingsList.add(createXmlMap("${virtualConfig.rootPath}/$from"))
                 } else if (from.endsWith(".strings")) {
-                    inputMappingsList.add(createDotStringsMap(from))
+                    inputMappingsList.add(createDotStringsMap("${virtualConfig.rootPath}/$from"))
                 } else {
                     throw DotStringsTranslatorException(
                         "[ILLEGAL CONFIG]",
@@ -73,9 +73,9 @@ fun main(args: Array<String>) {
             // write mappings into file
             it.to?.forEach {to ->
                 if (to.endsWith(".xml")) {
-                    writeMappingToXmlFile(mergedInputs, to, addNewEntries)
+                    writeMappingToXmlFile(mergedInputs, "${virtualConfig.rootPath}/$to", addNewEntries)
                 } else if (to.endsWith(".strings")) {
-                    writeMappingToDotStringsFile(mergedInputs, to, addNewEntries)
+                    writeMappingToDotStringsFile(mergedInputs, "${virtualConfig.rootPath}/$to", addNewEntries)
                 } else {
                     throw DotStringsTranslatorException(
                         "[ILLEGAL CONFIG]",

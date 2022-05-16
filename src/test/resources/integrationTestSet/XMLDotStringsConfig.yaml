@@ -1,13 +1,13 @@
 rootPath: "." # from directory of this file, sets relative paths
 translations:
   - from: # merges entries in input.xml and input.strings
-      "input.xml"
-      "input.strings"
+      - "input.xml"
+      - "input.strings"
     to:
-      "target.xml"
+      - "target.xml"
 
   - from:
-      "input.xml"
+      - "input.xml"
     to: # outputs the entries into each file
-      "target.xml"
-      "target.strings"
+      - "target.xml"
+      - "target.strings"
