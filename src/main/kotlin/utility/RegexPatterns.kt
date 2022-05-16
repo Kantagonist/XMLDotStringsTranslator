@@ -20,6 +20,13 @@ internal const val whiteSpaceOnlyPattern = "^\\s*$"
  */
 internal const val dotStringsKeyValueCaptureGroupsPattern = "^.*((?<=\").*(?=\")).*=.*((?<=\").*(?=\")).*\$"
 
+/**
+ * Matches everything before and also the last forward slash.
+ * E.g.
+ * input: /this/path/is/mine.yaml
+ * match: /this/path/is/
+ */
+internal const val everythingBeforeAndIncludingTheLastForwardSlashPattern = "^.*(?:\\/)"
 
 /**
  * Same as [dotStringsKeyValueCaptureGroupsPattern], but used in debugging to work on the \" problem.

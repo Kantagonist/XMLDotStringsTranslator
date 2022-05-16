@@ -1,0 +1,3 @@
+"first_test" = "this string will be overwritten";
+"second test" = "another string ot overwrite";
+"some_string" = "new Text goes home";
