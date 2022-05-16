@@ -40,6 +40,7 @@ fun main(args: Array<String>) {
 
         // early stop
         if (shouldContinue.not()) {
+            if (debugMode) return
             exitProcess(0)
         }
 
@@ -84,18 +85,23 @@ fun main(args: Array<String>) {
                 }
             }
         }
-        exitProcess(0)
+        if (debugMode.not()) {
+            exitProcess(0)
+        }
 
 
     // prints custom errors
     } catch (e: DotStringsTranslatorException) {
         println("${e.tag} ${e.message}")
-        exitProcess(1)
+        if (debugMode.not()) {
+            exitProcess(1)
+        }
     }
 }
 
 private var configFilePath = "XMLDotStringConfig.yaml"
 private var addNewEntries = false
+internal var debugMode = false
 
 /**
  * Keeps track of legal arguments and contains a lambda which is supposed to be fired everytime this is called.
@@ -151,6 +157,15 @@ private enum class ARGUMENTS(
             it?.let {
                 configFilePath = it
             }
+        }
+    ),
+    DEBUG_MODE(
+        "--debug-mode",
+        true,
+        false,
+        {
+            debugMode = true
+            println("Debug Mode selected.")
         }
     )
 }
