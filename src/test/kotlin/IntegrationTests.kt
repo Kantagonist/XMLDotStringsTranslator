@@ -109,7 +109,7 @@ class IntegrationTests {
 
         // create expected output
         val expectedDotStringsTargetFileOutput = "\"first_test\" = \"This should be transferred\";\n" +
-                "\"second_test\" = \"Hello World\";\n" +
+                "\"second test\" = \"Hello World\";\n" +
                 "\"some_string\" = \"some Text !\";"
 
         // main method run
