@@ -34,6 +34,23 @@ tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "11"
 }
 
+tasks.withType<Jar> {
+
+    // creates manifest
+    archiveFileName.set("xdst.jar")
+    manifest {
+        attributes["Main-Class"] = "MainKt"
+    }
+
+    // adds all dependencies for fat jar creation
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from(sourceSets.main.get().output)
+    dependsOn(configurations.runtimeClasspath)
+    from({
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+    })
+}
+
 application {
     mainClass.set("MainKt")
 }
