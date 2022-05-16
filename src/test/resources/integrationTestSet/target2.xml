@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="first_test">this string will be overwritten</string>
+    <string name="second test">another string to overwrite</string>
+    <string name="new_string_in_here">an old string in here</string>
+    <string name="taifun_build">so far all is quiet</string>
+</resources>

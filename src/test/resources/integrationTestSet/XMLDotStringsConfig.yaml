@@ -4,10 +4,10 @@ translations:
       - "input.xml"
       - "input.strings"
     to:
-      - "target.xml"
+      - "target1.xml"
 
   - from:
       - "input.xml"
     to: # outputs the entries into each file
-      - "target.xml"
+      - "target2.xml"
       - "target.strings"
