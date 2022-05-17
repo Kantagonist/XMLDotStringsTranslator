@@ -86,3 +86,9 @@ or
 ```
 java -jar xdst.jar --config relative/path/to/your/config.yaml
 ```
+
+## Further Information
+
+### Licensing
+This project is licensed under the GNU General Public License v3.
+A copy is provided in this project in the file LICENSE.txt.
