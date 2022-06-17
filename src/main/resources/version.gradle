@@ -4,5 +4,5 @@
  * The full license is available in the file LICENSE.txt
  */
 ext {
-    mainVersion="1.0.0"
+    mainVersion="1.1.0"
 }
