@@ -50,6 +50,7 @@ internal object StateObserver {
      * @param filePath The filePath, set in the config file, functions as key
      * @param id The ide of the entry, serves as bucket filler
      */
+    @kotlin.jvm.Throws(DotStringsTranslatorException::class)
     internal fun moveData(filePath: String, id: String) {
 
         // fail check

@@ -9,6 +9,7 @@ import inputmapcreators.createDotStringsMap
 import inputmapcreators.createXmlMap
 import outputmaptofilewriters.writeMappingToDotStringsFile
 import outputmaptofilewriters.writeMappingToXmlFile
+import utility.StateObserver
 import utility.mergeMappings
 import utility.versionNumberExtractionPattern
 import java.io.File
@@ -64,19 +65,27 @@ fun main(args: Array<String>) {
         // handle translations
         virtualConfig.translations?.forEach {
 
+            // StateObserver init
+            StateObserver.reset()
+
             // read mappings
             val inputMappingsList = mutableListOf<List<NameContentTuple>>()
             it.from?.forEach {from ->
+                var map: List<NameContentTuple>?
                 if (from.endsWith(".xml")) {
-                    inputMappingsList.add(createXmlMap("${virtualConfig.rootPath}/$from"))
+                    map = createXmlMap("${virtualConfig.rootPath}/$from")
                 } else if (from.endsWith(".strings")) {
-                    inputMappingsList.add(createDotStringsMap("${virtualConfig.rootPath}/$from"))
+                    map = createDotStringsMap("${virtualConfig.rootPath}/$from")
                 } else {
                     throw DotStringsTranslatorException(
                         "[ILLEGAL CONFIG]",
                         "from: $from is not a valid .xml or .strings file, please check your yaml config."
                     )
                 }
+                for (entry in map) {
+                    StateObserver.addUnMovedData(from, entry.name)
+                }
+                inputMappingsList.add(map)
             }
 
             // merge lists
