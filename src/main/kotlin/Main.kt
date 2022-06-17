@@ -16,6 +16,10 @@ import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
 
+    // print Greeting
+    println("\nWelcome to the XMl and Dot String resource transporter.\n" +
+            "-------------------------------------------------------\n")
+
     try {
         // evaluate args
         var shouldContinue = true
@@ -38,9 +42,9 @@ fun main(args: Array<String>) {
 
             // illegal argument exception
             } else {
-                throw DotStringsTranslatorException("[ILLEGAL ARGUMENT]", "the argument $externalArgument is not allowed, please use \n" +
+                throw DotStringsTranslatorException("[ILLEGAL ARGUMENT]", "the argument $externalArgument is not allowed, please use the flag \n" +
                         "\n" +
-                        "\t${ARGUMENTS.LIST_ARGUMENTS.pureCommand}\n" +
+                        "\t${ARGUMENTS.HELP.pureCommand}\n" +
                         "\nfor further information")
             }
         }
@@ -118,48 +122,59 @@ private enum class ARGUMENTS(
     val pureCommand: String,
     val continueAfter: Boolean,
     val allowsExtraString: Boolean,
+    val quickDescription: String,
     val extraRun: (String?) -> Unit
 ) {
     HELP(
         "--help",
         false,
         false,
+        "a quick help guide",
         {
             println(
-                "Welcome to the XMl and Dot String resource transporter.\n" +
-                        "For an in-depth tutorial on how to use this software, visit\n\n" +
-                        "\thttps://github.com/Kantagonist/XMLDotStringsTranslator/README.md" +
-                        "\n\nTo list all available commands, please call\n\n\t${LIST_ARGUMENTS.pureCommand}\n\n" +
-                        "This software depends on an input .yaml file, which should be in your current directory and named XMLDotStringConfig.yaml.\n" +
-                        "To set a different one, call \n\n\t${CONFIG.pureCommand} /path/to/YourFileName.config\n\n"
+                "For an in-depth tutorial on how to use this software, visit\n\n" +
+                "\thttps://github.com/Kantagonist/XMLDotStringsTranslator/README.md\n\n" +
+                "This software depends on an input .yaml file, which should be in your current directory and named XMLDotStringConfig.yaml.\n" +
+                "To set a different config Yaml file, call \n\n\t${CONFIG.pureCommand} /path/to/YourFileName.yaml\n\n" +
+                "The program allows for a certain set of extra config flags\n"
             )
+
+            /*
+             * calculates distance between command names to
+             * display the description all on the same height for a cleaner look.
+             * Tab use is too discordant for this
+             */
+            var offset = 0
+            for (entry in ARGUMENTS.values()) {
+               if (entry.pureCommand.length > offset) offset = entry.pureCommand.length
+            }
+            offset += 5
+            var print = "The following flags are allowed:\n"
+            for (entry in ARGUMENTS.values()) {
+                print += "\n\t${entry.pureCommand}"
+                for (i in 1..(offset - entry.pureCommand.length)) {
+                    print += " "
+                }
+                print += "[${entry.quickDescription}]"
+            }
+            println("$print\n")
         }
     ),
     ADD_NEW_ENTRIES(
         "--add-new-entries",
         true,
         false,
+        "Add entries into target, which did not exist before",
         {
             addNewEntries = true
             println("\n[ADDITIONAL MODE] elected to add new entries in each output file\n")
-        }
-    ),
-    LIST_ARGUMENTS(
-        "--list-arguments",
-        false,
-        false,
-        {
-            var print = "The following comments are allowed:\n"
-            for (entry in ARGUMENTS.values()) {
-                print += "\n\t${entry.pureCommand}"
-            }
-            println("$print\n")
         }
     ),
     CONFIG(
         "--config",
     true,
         true,
+        "Set a different config Yaml file",
         {
             it?.let {
                 configFilePath = it
@@ -170,6 +185,7 @@ private enum class ARGUMENTS(
         "--debug-mode",
         true,
         false,
+        "Enable debug console messages",
         {
             debugMode = true
             println("Debug Mode selected.")
@@ -179,6 +195,7 @@ private enum class ARGUMENTS(
         "--version",
         false,
         false,
+        "Print the current version number to the console",
         {
             println("XmlDotStringsTranslator\n\nVersion: ${getVersion()}")
         }
