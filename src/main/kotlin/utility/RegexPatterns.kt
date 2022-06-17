@@ -37,3 +37,8 @@ internal const val everythingBeforeAndIncludingTheLastForwardSlashPattern = "^.*
  * Same as [dotStringsKeyValueCaptureGroupsPattern], but used in debugging to work on the \" problem.
  */
 internal const val dotStringsKeyValueCaptureGroupsPatternExperimental = "((?<=^\\s*\").*(?:[^\\\\])(?=\")).*=.*((?<=\").*(?:[^\\\\])(?=\")).*\$"
+
+/**
+ * Gets the version number in the second capture group from the version.gradle file
+ */
+internal const val versionNumberExtractionPattern = "mainVersion=\"(.*)\""
