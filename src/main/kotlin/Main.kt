@@ -10,6 +10,8 @@ import inputmapcreators.createXmlMap
 import outputmaptofilewriters.writeMappingToDotStringsFile
 import outputmaptofilewriters.writeMappingToXmlFile
 import utility.mergeMappings
+import utility.versionNumberExtractionPattern
+import java.io.File
 import kotlin.system.exitProcess
 
 fun main(args: Array<String>) {
@@ -172,5 +174,32 @@ private enum class ARGUMENTS(
             debugMode = true
             println("Debug Mode selected.")
         }
+    ),
+    VERSION(
+        "--version",
+        false,
+        false,
+        {
+            println("XmlDotStringsTranslator\n\nVersion: ${getVersion()}")
+        }
     )
+}
+
+/**
+ * Reads the version as a String for debugging purposes.
+ *
+ * @return the version number as a String
+ */
+private fun getVersion(): String {
+
+    // read file
+    val versionFilePath = "${System.getProperty("user.dir")}/src/main/resources/version.gradle"
+    val versionFileContent = File(versionFilePath).readText()
+
+    // extract number
+    val versionRegex = Regex(versionNumberExtractionPattern, RegexOption.DOT_MATCHES_ALL)
+    val captureGroupValues = versionRegex.find(versionFileContent, 0)?.groupValues
+        ?: throw DotStringsTranslatorException("[FORMAT ERROR]", "Tried and failed to extract version number from resources/version.gradle")
+
+    return captureGroupValues[1]
 }

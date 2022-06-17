@@ -1,12 +1,14 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
+apply(from="./src/main/resources/version.gradle")
+
 plugins {
     kotlin("jvm") version "1.6.20"
     application
 }
 
 group = "de.kantagonist"
-version = "1.1.0-SNAPSHOT"
+version = rootProject.ext.properties["mainVersion"]!!
 
 repositories {
     mavenCentral()
