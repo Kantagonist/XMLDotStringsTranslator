@@ -48,7 +48,7 @@ internal object StateObserver {
      * Uses the same BucketSort as its unmoved twin.
      *
      * @param filePath The filePath, set in the config file, functions as key
-     * @param id The ide of the entry, serves as bucket filler
+     * @param id The id of the entry, serves as bucket filler
      */
     @kotlin.jvm.Throws(DotStringsTranslatorException::class)
     internal fun moveData(filePath: String, id: String) {
@@ -74,7 +74,7 @@ internal object StateObserver {
      * Sorts the current data by file and preformats an easily readable format
      */
     override fun toString(): String {
-        val resultBuilder = StringBuilder("Unmoved Data:\n")
+        val resultBuilder = StringBuilder("Unmoved Data:")
         for (entry in unmovedData) {
             resultBuilder.append("\n\t${entry.key}\n")
             for (id in entry.value) {
@@ -82,7 +82,7 @@ internal object StateObserver {
             }
         }
 
-        resultBuilder.append("\nMoved Data:\n")
+        resultBuilder.append("\nMoved Data:")
         for (entry in movedData) {
             resultBuilder.append("\n\t${entry.key}\n")
             for (id in entry.value) {

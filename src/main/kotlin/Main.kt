@@ -63,9 +63,12 @@ fun main(args: Array<String>) {
         val virtualConfig = readConfig(configFilePath)
 
         // handle translations
+        var translationDebugPrintouts = ""
+        var translationId = 0
         virtualConfig.translations?.forEach {
 
             // StateObserver init
+            translationId++
             StateObserver.reset()
 
             // read mappings
@@ -103,9 +106,18 @@ fun main(args: Array<String>) {
                     )
                 }
             }
+
+            // Save debug printouts for this translation
+            translationDebugPrintouts += "\ntranslation: $translationId\n"
+            StateObserver.toString().lines().forEach { line ->
+                translationDebugPrintouts += "\t$line\n"
+            }
+
         }
         if (debugMode.not()) {
             exitProcess(0)
+        } else {
+            println(translationDebugPrintouts)
         }
 
 
