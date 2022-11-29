@@ -1,0 +1,7 @@
+rootPath: "."
+translations:
+  - from:
+      - "input.xml"
+      - "input.strings"
+    to:
+      - "target.strings"

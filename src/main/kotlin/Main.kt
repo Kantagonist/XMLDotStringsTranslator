@@ -9,6 +9,7 @@ import inputmapcreators.createDotStringsMap
 import inputmapcreators.createXmlMap
 import outputmaptofilewriters.writeMappingToDotStringsFile
 import outputmaptofilewriters.writeMappingToXmlFile
+import utility.StateObserver
 import utility.mergeMappings
 import utility.versionNumberExtractionPattern
 import java.io.File
@@ -62,21 +63,31 @@ fun main(args: Array<String>) {
         val virtualConfig = readConfig(configFilePath)
 
         // handle translations
+        var translationDebugPrintouts = ""
+        var translationId = 0
         virtualConfig.translations?.forEach {
+
+            // StateObserver init
+            translationId++
+            StateObserver.reset()
 
             // read mappings
             val inputMappingsList = mutableListOf<List<NameContentTuple>>()
             it.from?.forEach {from ->
-                if (from.endsWith(".xml")) {
-                    inputMappingsList.add(createXmlMap("${virtualConfig.rootPath}/$from"))
+                val map = if (from.endsWith(".xml")) {
+                    createXmlMap("${virtualConfig.rootPath}/$from")
                 } else if (from.endsWith(".strings")) {
-                    inputMappingsList.add(createDotStringsMap("${virtualConfig.rootPath}/$from"))
+                    createDotStringsMap("${virtualConfig.rootPath}/$from")
                 } else {
                     throw DotStringsTranslatorException(
                         "[ILLEGAL CONFIG]",
                         "from: $from is not a valid .xml or .strings file, please check your yaml config."
                     )
                 }
+                for (entry in map) {
+                    StateObserver.addInputData(from, entry.name)
+                }
+                inputMappingsList.add(map)
             }
 
             // merge lists
@@ -84,7 +95,7 @@ fun main(args: Array<String>) {
 
             // write mappings into file
             it.to?.forEach {to ->
-                if (to.endsWith(".xml")) {
+                val outputMap = if (to.endsWith(".xml")) {
                     writeMappingToXmlFile(mergedInputs, "${virtualConfig.rootPath}/$to", addNewEntries)
                 } else if (to.endsWith(".strings")) {
                     writeMappingToDotStringsFile(mergedInputs, "${virtualConfig.rootPath}/$to", addNewEntries)
@@ -94,10 +105,26 @@ fun main(args: Array<String>) {
                         "to: $to is not a valid .xml or .strings file, please check your yaml config."
                     )
                 }
+                for (entry in outputMap[0]) {
+                    StateObserver.addUnmovedData(to, entry)
+                }
+                for (entry in outputMap[1]) {
+                    StateObserver.moveData(to, entry)
+                }
             }
+
+            // Save debug printouts for this translation
+            translationDebugPrintouts += "\ntranslation: $translationId\n"
+            StateObserver.toString().lines().forEach { line ->
+                translationDebugPrintouts += "\t$line\n"
+            }
+
         }
         if (debugMode.not()) {
             exitProcess(0)
+        } else {
+            debugMessage = translationDebugPrintouts
+            println(translationDebugPrintouts)
         }
 
 
@@ -113,6 +140,11 @@ fun main(args: Array<String>) {
 private var configFilePath = "XMLDotStringConfig.yaml"
 private var addNewEntries = false
 internal var debugMode = false
+
+private var debugMessage = ""
+fun getDebugMessage(): String {
+    return debugMessage
+}
 
 /**
  * Keeps track of legal arguments and contains a lambda which is supposed to be fired everytime this is called.
