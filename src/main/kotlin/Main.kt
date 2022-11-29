@@ -71,11 +71,10 @@ fun main(args: Array<String>) {
             // read mappings
             val inputMappingsList = mutableListOf<List<NameContentTuple>>()
             it.from?.forEach {from ->
-                var map: List<NameContentTuple>?
-                if (from.endsWith(".xml")) {
-                    map = createXmlMap("${virtualConfig.rootPath}/$from")
+                val map: List<NameContentTuple> = if (from.endsWith(".xml")) {
+                    createXmlMap("${virtualConfig.rootPath}/$from")
                 } else if (from.endsWith(".strings")) {
-                    map = createDotStringsMap("${virtualConfig.rootPath}/$from")
+                    createDotStringsMap("${virtualConfig.rootPath}/$from")
                 } else {
                     throw DotStringsTranslatorException(
                         "[ILLEGAL CONFIG]",

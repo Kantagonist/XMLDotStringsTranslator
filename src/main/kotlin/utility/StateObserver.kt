@@ -32,7 +32,7 @@ internal object StateObserver {
      * Buckets are the filepath names.
      *
      * @param filePath The filePath, set in the config file, functions as key
-     * @param id The ide of the entry, serves as bucket filler
+     * @param id The id of the entry, serves as bucket filler
      */
     internal fun addUnMovedData(filePath: String, id: String) {
         unmovedData[filePath]?.add(id) ?: run {
