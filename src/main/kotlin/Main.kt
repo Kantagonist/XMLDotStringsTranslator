@@ -74,7 +74,7 @@ fun main(args: Array<String>) {
             // read mappings
             val inputMappingsList = mutableListOf<List<NameContentTuple>>()
             it.from?.forEach {from ->
-                val map: List<NameContentTuple> = if (from.endsWith(".xml")) {
+                val map = if (from.endsWith(".xml")) {
                     createXmlMap("${virtualConfig.rootPath}/$from")
                 } else if (from.endsWith(".strings")) {
                     createDotStringsMap("${virtualConfig.rootPath}/$from")
@@ -85,7 +85,7 @@ fun main(args: Array<String>) {
                     )
                 }
                 for (entry in map) {
-                    StateObserver.addUnMovedData(from, entry.name)
+                    StateObserver.addInputData(from, entry.name)
                 }
                 inputMappingsList.add(map)
             }
@@ -95,7 +95,7 @@ fun main(args: Array<String>) {
 
             // write mappings into file
             it.to?.forEach {to ->
-                if (to.endsWith(".xml")) {
+                val outputMap = if (to.endsWith(".xml")) {
                     writeMappingToXmlFile(mergedInputs, "${virtualConfig.rootPath}/$to", addNewEntries)
                 } else if (to.endsWith(".strings")) {
                     writeMappingToDotStringsFile(mergedInputs, "${virtualConfig.rootPath}/$to", addNewEntries)
@@ -104,6 +104,12 @@ fun main(args: Array<String>) {
                         "[ILLEGAL CONFIG]",
                         "to: $to is not a valid .xml or .strings file, please check your yaml config."
                     )
+                }
+                for (entry in outputMap[0]) {
+                    StateObserver.addUnMovedData(to, entry)
+                }
+                for (entry in outputMap[1]) {
+                    StateObserver.moveData(to, entry)
                 }
             }
 
