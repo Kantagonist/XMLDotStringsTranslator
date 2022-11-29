@@ -29,9 +29,15 @@ private val standaloneHintRegex = Regex("\\sstandalone=\".*\"")
  * @param mapping a list of name-content tuples which serve as input
  * @param absolutePath the absolutePath of the target file as a String
  * @param addNewEntries adds new entries on bottom of the existing file if true, ignores them is false.
+ *
+ * @return 2 non-null lists, the first transmits the original strings ids in the file, the second shows all the manipulated ids.
  */
 @kotlin.jvm.Throws(DotStringsTranslatorException::class)
-internal fun writeMappingToXmlFile(mapping: List<NameContentTuple>, absolutePath: String, addNewEntries: Boolean = false) {
+internal fun writeMappingToXmlFile(
+    mapping: List<NameContentTuple>,
+    absolutePath: String,
+    addNewEntries: Boolean = false): List<List<String>> {
+
     // read in XML file
     val xmlFile = File(absolutePath)
     if (!xmlFile.exists() || !xmlFile.name.endsWith(".xml")) {
@@ -40,6 +46,11 @@ internal fun writeMappingToXmlFile(mapping: List<NameContentTuple>, absolutePath
             message = "Could not find .xml file under:\n$absolutePath"
         )
     }
+
+    // initiate debug result
+    val debuggingResult = listOf(mutableListOf(), mutableListOf<String>())
+
+    // read in XML
     val dbFactoryBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder()
     val xmlText = xmlFile.readText()
     val hasStandaloneDeclaration = standaloneHintRegex.containsMatchIn(xmlText.lines()[0])
@@ -50,10 +61,12 @@ internal fun writeMappingToXmlFile(mapping: List<NameContentTuple>, absolutePath
     val listOfStrings = virtualXmlDocument.getElementsByTagName("string")
     val listOfManipulatedMappingElements = mutableListOf<NameContentTuple>()
     for (i in 0 until listOfStrings.length) {
+        debuggingResult[0].add(listOfStrings.item(i).attributes.getNamedItem("name").nodeValue)
         val nameContentTuple = mapping.find {
             it.name == listOfStrings.item(i).attributes.getNamedItem("name").nodeValue
         }
         if (nameContentTuple != null) {
+            debuggingResult[1].add(nameContentTuple.name)
             listOfManipulatedMappingElements.add(nameContentTuple)
             listOfStrings.item(i).textContent = nameContentTuple.content
         }
@@ -63,6 +76,7 @@ internal fun writeMappingToXmlFile(mapping: List<NameContentTuple>, absolutePath
     if (addNewEntries) {
         mapping.forEach { mainMapping ->
             if (listOfManipulatedMappingElements.find { mainMapping.name == it.name } == null) {
+                debuggingResult[1].add(mainMapping.name)
                 addToXmlDocument(virtualXmlDocument, mainMapping)
             }
         }
@@ -78,6 +92,9 @@ internal fun writeMappingToXmlFile(mapping: List<NameContentTuple>, absolutePath
 
     // fix file errors, which sadly occur due to Oracle's incompetence
     xmlFileCleanup(xmlFile, !hasStandaloneDeclaration)
+
+    // return ids for debugging usage in the main function
+    return debuggingResult
 }
 
 /**
