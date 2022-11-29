@@ -21,9 +21,14 @@ import kotlin.jvm.Throws
  * @param mapping a list of name-content tuples which serve as input
  * @param absolutePath the absolutePath of the target file as a String
  * @param addNewEntries adds new entries on bottom of the existing file if true, ignores them is false.
+ *
+ *  @return 2 non-null lists, the first transmits the original strings ids in the file, the second shows all the manipulated ids.
  */
 @Throws(DotStringsTranslatorException::class)
-internal fun writeMappingToDotStringsFile(mapping: List<NameContentTuple>, absolutePath: String, addNewEntries: Boolean = false) {
+internal fun writeMappingToDotStringsFile(
+    mapping: List<NameContentTuple>,
+    absolutePath: String,
+    addNewEntries: Boolean = false): List<List<String>> {
     // read in .strings file
     val dotStringsFile = File(absolutePath)
     if (!dotStringsFile.exists() || !dotStringsFile.name.endsWith(".strings")) {
@@ -32,6 +37,9 @@ internal fun writeMappingToDotStringsFile(mapping: List<NameContentTuple>, absol
             message = "Could not find .strings file under:\n$absolutePath"
         )
     }
+
+    // initiate debug result
+    val debuggingResult = listOf(mutableListOf(), mutableListOf<String>())
 
     // get sections of .strings file
     val sectionsList = readSectionsOfDotStrings(dotStringsFile.readText())
@@ -48,8 +56,8 @@ internal fun writeMappingToDotStringsFile(mapping: List<NameContentTuple>, absol
              * Create a regex pattern to match only true (".*" = ".*")
              */
             for (stringResource in section.content.split(";")) {
-                result += if (!stringResource.contains(Regex(whiteSpaceOnlyPattern))) { // matches a whitespace-only string
-                    "${manipulateSectionContent(stringResource, mutableMapping)};"
+                result += if (!stringResource.contains(Regex(whiteSpaceOnlyPattern))) {
+                    "${manipulateSectionContent(stringResource, mutableMapping, debuggingResult)};"
                 } else {
                     stringResource // re-adds line breaks and trailing spaces of a section
                 }
@@ -62,12 +70,16 @@ internal fun writeMappingToDotStringsFile(mapping: List<NameContentTuple>, absol
     // add new lines to bottom of the file
     if (addNewEntries) {
         for (entry in mutableMapping) {
+            debuggingResult[1].add(entry.name)
             result += "\n\"${entry.name}\" = \"${entry.content}\";"
         }
     }
 
     // write result into file
     dotStringsFile.writeText(result)
+
+    // return ids for debugging usage in the main function
+    return debuggingResult
 }
 
 /**
@@ -83,7 +95,10 @@ internal fun writeMappingToDotStringsFile(mapping: List<NameContentTuple>, absol
  * @throws DotStringsTranslatorException if the regex matching process for key-value did not succeed.
  */
 @Throws(DotStringsTranslatorException::class)
-private fun manipulateSectionContent(content: String, mapping: MutableList<NameContentTuple>): String {
+private fun manipulateSectionContent(
+    content: String,
+    mapping: MutableList<NameContentTuple>,
+    debuggingList: List<MutableList<String>>): String {
 
     // match key-value pair
     val nameRegex = Regex(dotStringsKeyValueCaptureGroupsPattern, RegexOption.DOT_MATCHES_ALL)
@@ -97,6 +112,8 @@ private fun manipulateSectionContent(content: String, mapping: MutableList<NameC
     val key = captureGroups[1]!!
     val value = captureGroups[2]!!
 
+    debuggingList[0].add(key.value)
+
     // find mapping
     val tuple = mapping.find {
        it.name == key.value
@@ -106,6 +123,7 @@ private fun manipulateSectionContent(content: String, mapping: MutableList<NameC
     // apply mapping
     var result = content
     tuple?.let {
+        debuggingList[1].add(it.name)
         result = content.replaceRange(key.range, it.name)
         /*
          * by replacing the first part, the ranges of the content might be changed.
