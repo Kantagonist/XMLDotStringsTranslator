@@ -70,6 +70,7 @@ internal fun writeMappingToDotStringsFile(
     // add new lines to bottom of the file
     if (addNewEntries) {
         for (entry in mutableMapping) {
+            debuggingResult[0].add(entry.name)
             debuggingResult[1].add(entry.name)
             result += "\n\"${entry.name}\" = \"${entry.content}\";"
         }

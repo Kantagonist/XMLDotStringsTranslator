@@ -51,7 +51,7 @@ internal object StateObserver {
      * @param filePath The filePath, set in the config file, functions as key
      * @param id The id of the entry, serves as bucket filler
      */
-    internal fun addUnMovedData(filePath: String, id: String) {
+    internal fun addUnmovedData(filePath: String, id: String) {
         unmovedData[filePath]?.add(id) ?: run {
             val newSet = HashSet<String>()
             newSet.add(id)
@@ -75,7 +75,7 @@ internal object StateObserver {
             throw DotStringsTranslatorException("[OBSERVATION ERROR]", " Tried to move $filePath, but it doesn't exist")
         }
         if (unmovedData[filePath]?.contains(id) == false) {
-            throw DotStringsTranslatorException("[OBSERVATION ERROR]", " Tried to move $filePath with id: $, but it doesn't exist")
+            throw DotStringsTranslatorException("[OBSERVATION ERROR]", " Tried to move $filePath with id: $id, but it doesn't exist")
         }
 
         // data move
@@ -99,7 +99,7 @@ internal object StateObserver {
             }
         }
 
-        resultBuilder.append("Unmoved Data:")
+        resultBuilder.append("\nUnmoved Data:")
         for (entry in unmovedData) {
             resultBuilder.append("\n\t${entry.key}\n")
             for (id in entry.value) {

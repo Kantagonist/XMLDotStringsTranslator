@@ -76,6 +76,7 @@ internal fun writeMappingToXmlFile(
     if (addNewEntries) {
         mapping.forEach { mainMapping ->
             if (listOfManipulatedMappingElements.find { mainMapping.name == it.name } == null) {
+                debuggingResult[0].add(mainMapping.name)
                 debuggingResult[1].add(mainMapping.name)
                 addToXmlDocument(virtualXmlDocument, mainMapping)
             }

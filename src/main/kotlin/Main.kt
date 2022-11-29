@@ -106,7 +106,7 @@ fun main(args: Array<String>) {
                     )
                 }
                 for (entry in outputMap[0]) {
-                    StateObserver.addUnMovedData(to, entry)
+                    StateObserver.addUnmovedData(to, entry)
                 }
                 for (entry in outputMap[1]) {
                     StateObserver.moveData(to, entry)
@@ -123,6 +123,7 @@ fun main(args: Array<String>) {
         if (debugMode.not()) {
             exitProcess(0)
         } else {
+            debugMessage = translationDebugPrintouts
             println(translationDebugPrintouts)
         }
 
@@ -139,6 +140,11 @@ fun main(args: Array<String>) {
 private var configFilePath = "XMLDotStringConfig.yaml"
 private var addNewEntries = false
 internal var debugMode = false
+
+private var debugMessage = ""
+fun getDebugMessage(): String {
+    return debugMessage
+}
 
 /**
  * Keeps track of legal arguments and contains a lambda which is supposed to be fired everytime this is called.
