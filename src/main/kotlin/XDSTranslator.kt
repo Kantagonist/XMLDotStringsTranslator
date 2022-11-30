@@ -15,7 +15,11 @@ import utility.versionNumberExtractionPattern
 import java.io.File
 import kotlin.system.exitProcess
 
-fun main(args: Array<String>) {
+/**
+ * Entry function in a program, just add the arguments as strings.
+ * Use the --help command to see what the program offers.
+ */
+fun translateViaXDST(args: Array<String>) {
 
     // print Greeting
     println("\nWelcome to the XMl and Dot String resource transporter.\n" +
@@ -181,7 +185,7 @@ private enum class ARGUMENTS(
                 "For an in-depth tutorial on how to use this software, visit\n\n" +
                 "\thttps://github.com/Kantagonist/XMLDotStringsTranslator/README.md\n\n" +
                 "This software depends on an input .yaml file, which should be in your current directory and named XMLDotStringConfig.yaml.\n" +
-                "To set a different config Yaml file, call \n\n\t${CONFIG.pureCommand} /path/to/YourFileName.yaml\n\n" +
+                "To set a different config Yaml file for this run, add the flag \n\n\t${CONFIG.pureCommand} /path/to/YourFileName.yaml\n\n" +
                 "The program allows for a certain set of extra config flags\n"
             )
 
@@ -210,7 +214,7 @@ private enum class ARGUMENTS(
         "--add-new-entries",
         true,
         false,
-        "Add entries into target, which did not exist before",
+        "Add entries into target files, which did not exist before",
         {
             addNewEntries = true
             println("\n[ADDITIONAL MODE] elected to add new entries in each output file\n")
@@ -220,7 +224,7 @@ private enum class ARGUMENTS(
         "--config",
     true,
         true,
-        "Set a different config Yaml file",
+        "Set a different config Yaml file for this translation",
         {
             it?.let {
                 configFilePath = it
@@ -231,7 +235,7 @@ private enum class ARGUMENTS(
         "--debug-mode",
         true,
         false,
-        "Enable debug console messages",
+        "Enable debug console messages and print which changes were applied",
         {
             debugMode = true
             println("Debug Mode selected.")

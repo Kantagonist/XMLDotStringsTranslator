@@ -76,7 +76,7 @@ class IntegrationTests {
                 "</resources>"
 
         // main method run
-        main(arrayOf("--debug-mode", "--config", configFilePath))
+        translateViaXDST(arrayOf("--debug-mode", "--config", configFilePath))
 
         // evaluation
         assertEquals(expectedXmlTarget1Output, targetXmlFile1.readText())
@@ -99,7 +99,7 @@ class IntegrationTests {
                 "</resources>"
 
         // main method run
-        main(arrayOf("--debug-mode", "--config", configFilePath))
+        translateViaXDST(arrayOf("--debug-mode", "--config", configFilePath))
 
         // evaluation
         assertEquals(expectedXmlTarget2Output, targetXml2File.readText())
@@ -118,7 +118,7 @@ class IntegrationTests {
                 "\"some_string\" = \"some Text !\";"
 
         // main method run
-        main(arrayOf("--debug-mode", "--config", configFilePath))
+        translateViaXDST(arrayOf("--debug-mode", "--config", configFilePath))
 
         // evaluation
         assertEquals(expectedDotStringsTargetFileOutput, targetDotStringsTargetFile.readText())

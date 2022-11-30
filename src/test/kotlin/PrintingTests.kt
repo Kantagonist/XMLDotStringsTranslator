@@ -76,7 +76,7 @@ class PrintingTests {
                 "\t\t\tfirst_test"
 
         // main method run
-        main(arrayOf("--debug-mode", "--config", configFilePath))
+        translateViaXDST(arrayOf("--debug-mode", "--config", configFilePath))
 
         // evaluates if the system's console prints
         assertTrue(getDebugMessage().contains(expectedPrintOutput))
@@ -115,7 +115,7 @@ class PrintingTests {
                 "\t\t\tsome_string"
 
         // main method run
-        main(arrayOf("--debug-mode", "--add-new-entries", "--config", configFilePath))
+        translateViaXDST(arrayOf("--debug-mode", "--add-new-entries", "--config", configFilePath))
 
         // evaluates if the system's console prints
         assertTrue(getDebugMessage().contains(expectedPrintOutput))
