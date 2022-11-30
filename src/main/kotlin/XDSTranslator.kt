@@ -23,6 +23,7 @@ fun main(args: Array<String>) {
 
     try {
         // evaluate args
+        resetRunValues()
         var shouldContinue = true
         val iterator = args.iterator()
         while (iterator.hasNext()) {
@@ -137,11 +138,24 @@ fun main(args: Array<String>) {
     }
 }
 
+/**
+ * Used to reset the values for the arguments before evaluation.
+ */
+private fun resetRunValues() {
+    configFilePath = "XMLDotStringConfig.yaml"
+    addNewEntries = false
+    debugMode = false
+    debugMessage = ""
+}
+
 private var configFilePath = "XMLDotStringConfig.yaml"
 private var addNewEntries = false
-internal var debugMode = false
-
+private var debugMode = false
 private var debugMessage = ""
+
+/**
+ * Public custom getter for debugging and tests.
+ */
 fun getDebugMessage(): String {
     return debugMessage
 }
