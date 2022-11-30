@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="first_test">This should be transferred</string>
+    <string name="second test">Hello World</string>
+    <string name="move_to_standard">Gibberish in text is here</string>
+    <string name="some_string">some Text !</string>
+</resources>

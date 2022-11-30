@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="first_test">This should </string>
+    <string name="second test">Hello Sun</string>
+    <string name="move_to_standard">Change me</string>
+    <string name="my_non_moved_string">some Text !</string>
+</resources>
