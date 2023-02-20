@@ -5,6 +5,7 @@ apply(from="./src/main/resources/version.gradle")
 plugins {
     kotlin("jvm") version "1.6.20"
     application
+    id("io.gitlab.arturbosch.detekt").version("1.22.0")
 }
 
 group = "de.kantagonist"
