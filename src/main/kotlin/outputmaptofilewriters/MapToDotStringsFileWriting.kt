@@ -7,9 +7,9 @@ package outputmaptofilewriters
 
 import DotStringsTranslatorException
 import inputmapcreators.NameContentTuple
-import utility.dotStringsKeyValueCaptureGroupsPattern
+import utility.DOT_STRINGS_KEY_VALUE_CAPTURE_GROUPS_PATTERN
 import utility.readSectionsOfDotStrings
-import utility.whiteSpaceOnlyPattern
+import utility.WHITE_SPACE_ONLY_PATTERN
 import java.io.File
 import kotlin.jvm.Throws
 
@@ -56,7 +56,7 @@ internal fun writeMappingToDotStringsFile(
              * Create a regex pattern to match only true (".*" = ".*")
              */
             for (stringResource in section.content.split(";")) {
-                result += if (!stringResource.contains(Regex(whiteSpaceOnlyPattern))) {
+                result += if (!stringResource.contains(Regex(WHITE_SPACE_ONLY_PATTERN))) {
                     "${manipulateSectionContent(stringResource, mutableMapping, debuggingResult)};"
                 } else {
                     stringResource // re-adds line breaks and trailing spaces of a section
@@ -102,7 +102,7 @@ private fun manipulateSectionContent(
     debuggingList: List<MutableList<String>>): String {
 
     // match key-value pair
-    val nameRegex = Regex(dotStringsKeyValueCaptureGroupsPattern, RegexOption.DOT_MATCHES_ALL)
+    val nameRegex = Regex(DOT_STRINGS_KEY_VALUE_CAPTURE_GROUPS_PATTERN, RegexOption.DOT_MATCHES_ALL)
     val captureGroups = nameRegex.find(content, 0)?.groups
     if (captureGroups == null || captureGroups.size < 3) {
         throw DotStringsTranslatorException(

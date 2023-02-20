@@ -11,7 +11,7 @@ import outputmaptofilewriters.writeMappingToDotStringsFile
 import outputmaptofilewriters.writeMappingToXmlFile
 import utility.StateObserver
 import utility.mergeMappings
-import utility.versionNumberExtractionPattern
+import utility.VERSION_NUMBER_EXTRACTION_PATTERN
 import java.io.File
 import kotlin.system.exitProcess
 
@@ -264,7 +264,7 @@ private fun getVersion(): String {
     val versionFileContent = File(versionFilePath).readText()
 
     // extract number
-    val versionRegex = Regex(versionNumberExtractionPattern, RegexOption.DOT_MATCHES_ALL)
+    val versionRegex = Regex(VERSION_NUMBER_EXTRACTION_PATTERN, RegexOption.DOT_MATCHES_ALL)
     val captureGroupValues = versionRegex.find(versionFileContent, 0)?.groupValues
         ?: throw DotStringsTranslatorException("[FORMAT ERROR]", "Tried and failed to extract version number from resources/version.gradle")
 
