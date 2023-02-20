@@ -8,7 +8,7 @@ package utility
 /**
  * Matches a String of ONLY whitespace characters, e.g. " ", "\n"
  */
-internal const val whiteSpaceOnlyPattern = "^\\s*$"
+internal const val WHITE_SPACE_ONLY_PATTERN = "^\\s*$"
 
 /**
  * For a string like e.g.
@@ -23,7 +23,7 @@ internal const val whiteSpaceOnlyPattern = "^\\s*$"
  *
  * DANGER: breaks if the key or value contain \"
  */
-internal const val dotStringsKeyValueCaptureGroupsPattern = "^.*((?<=\").*(?=\")).*=.*((?<=\").*(?=\")).*\$"
+internal const val DOT_STRINGS_KEY_VALUE_CAPTURE_GROUPS_PATTERN = "^.*((?<=\").*(?=\")).*=.*((?<=\").*(?=\")).*\$"
 
 /**
  * Matches everything before and also the last forward slash.
@@ -31,14 +31,14 @@ internal const val dotStringsKeyValueCaptureGroupsPattern = "^.*((?<=\").*(?=\")
  * input: /this/path/is/mine.yaml
  * match: /this/path/is/
  */
-internal const val everythingBeforeAndIncludingTheLastForwardSlashPattern = "^.*(?:\\/)"
+internal const val EVERYTHING_BEFORE_AND_INCLUDING_THE_LAST_FORWARD_SLASH_PATTERN = "^.*(?:\\/)"
 
 /**
- * Same as [dotStringsKeyValueCaptureGroupsPattern], but used in debugging to work on the \" problem.
+ * Same as [DOT_STRINGS_KEY_VALUE_CAPTURE_GROUPS_PATTERN], but used in debugging to work on the \" problem.
  */
-internal const val dotStringsKeyValueCaptureGroupsPatternExperimental = "((?<=^\\s*\").*(?:[^\\\\])(?=\")).*=.*((?<=\").*(?:[^\\\\])(?=\")).*\$"
+internal const val DOT_STRINGS_KEY_VALUE_CAPTURE_GROUPS_PATTERN_EXPERIMENTAL = "((?<=^\\s*\").*(?:[^\\\\])(?=\")).*=.*((?<=\").*(?:[^\\\\])(?=\")).*\$"
 
 /**
  * Gets the version number in the second capture group from the version.gradle file
  */
-internal const val versionNumberExtractionPattern = "mainVersion=\"(.*)\""
+internal const val VERSION_NUMBER_EXTRACTION_PATTERN = "mainVersion=\"(.*)\""

@@ -9,7 +9,7 @@ import DotStringsTranslatorException
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory
 import com.fasterxml.jackson.module.kotlin.KotlinModule
-import utility.everythingBeforeAndIncludingTheLastForwardSlashPattern
+import utility.EVERYTHING_BEFORE_AND_INCLUDING_THE_LAST_FORWARD_SLASH_PATTERN
 import java.io.File
 import java.nio.file.Files
 import kotlin.io.path.Path
@@ -42,7 +42,7 @@ internal fun readConfig(yamlConfigFilePath: String): VirtualConfigFile {
 
     // fix given rootPath to account for relative and absolute path
     if (!result.rootPath.startsWith("/")) {
-        val regex = Regex(everythingBeforeAndIncludingTheLastForwardSlashPattern)
+        val regex = Regex(EVERYTHING_BEFORE_AND_INCLUDING_THE_LAST_FORWARD_SLASH_PATTERN)
         val match = regex.find(yamlConfigFilePath)
         match?.let {
             result.rootPath =  "${it.value}${result.rootPath}"
